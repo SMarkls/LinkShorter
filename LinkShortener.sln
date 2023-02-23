@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkShortener.Mvc", "LinkShortener.Mvc\LinkShortener.Mvc.csproj", "{B9E8429E-E79A-4147-BA46-3A19A2E37DB5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkShortener.Api", "LinkShortener.Api\LinkShortener.Api.csproj", "{24CB669A-7A31-490C-8DEA-865E81D628A8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{B9E8429E-E79A-4147-BA46-3A19A2E37DB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9E8429E-E79A-4147-BA46-3A19A2E37DB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9E8429E-E79A-4147-BA46-3A19A2E37DB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24CB669A-7A31-490C-8DEA-865E81D628A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24CB669A-7A31-490C-8DEA-865E81D628A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24CB669A-7A31-490C-8DEA-865E81D628A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24CB669A-7A31-490C-8DEA-865E81D628A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

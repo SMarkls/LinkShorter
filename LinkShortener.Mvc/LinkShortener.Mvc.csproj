@@ -6,4 +6,8 @@
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\LinkShortener.Api\LinkShortener.Api.csproj" />
+    </ItemGroup>
+
 </Project>

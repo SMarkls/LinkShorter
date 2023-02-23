@@ -1,4 +1,5 @@
-﻿@{
+﻿@model LinkModel
+@{
     ViewData["Title"] = "Сократи ссылку!";
 }
 
@@ -7,8 +8,10 @@
         Сократи ссылку!
     </div>
     <div class="m-5">
-        <form>
-            <input class="container-fluid text-center" type="text" name="link-to-short"/>
+        <p class="text-white">@ViewBag.IsSuccess</p>
+        <form asp-action="CreateLink" asp-controller="Home" method="post">
+            <span class="text-danger" asp-validation-for="Link"></span>
+            <input class="container-fluid text-center" type="text" asp-for="Link"/>
             <button class="btn btn-dark m-3 border-light border-2" type="submit">Сократить</button>
         </form>
     </div>
