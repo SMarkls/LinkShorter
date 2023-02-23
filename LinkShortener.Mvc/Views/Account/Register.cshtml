@@ -1,0 +1,30 @@
+﻿@model LinkShortener.Api.Models.UserModels.RegisterModel
+
+@{
+    ViewData["Title"] = "Регистрация";
+    Layout = "_Layout";
+}
+
+<div class="text-center">
+    <form class="align-content-center" method="post" asp-action="Register">
+        <div>
+            <div>
+                <label class="text-white">Логин</label>
+            </div>
+            <input type="text" class="text-center" asp-for="Login"/>
+            <span asp-validation-for="Login"></span>
+        </div>
+        <div>
+            <div>
+                <label class="text-white">Пароль</label>
+            </div>
+            <input type="text" class="text-center" asp-for="Password"/>
+            <span asp-validation-for="Login"></span>
+        </div>
+        <div>
+            <button class="btn btn-dark m-3 border-light border-2" type="submit">Зарегистрироваться!</button>
+            <a class="text-white" asp-action="Login">Уже есть аккаунт?</a>
+        </div>
+        <p class="text-danger">@ViewBag.Error</p>
+    </form>
+</div>

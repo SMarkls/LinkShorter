@@ -16,6 +16,14 @@
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            @if (!Context.User.HasClaim(x => x.Type == "User")) {
+                <a asp-action="Login" asp-controller="Account" class="text-end text-white text-decoration-none">Войти</a>
+            }
+            else
+            {
+                <p class="text-end text-white col-9">@Context.User.Claims.First(x => x.Type == "User").Value</p>
+                <a asp-action="Logout" asp-controller="Account" class="text-end text-white text-decoration-none">Выйти</a>
+            }
         </div>
     </nav>
 </header>

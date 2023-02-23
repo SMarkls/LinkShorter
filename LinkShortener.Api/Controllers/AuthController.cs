@@ -17,11 +17,13 @@ public class AuthController
         this.service = service;
     }
     [HttpPost]
-    public async Task<BaseResponse<bool>> Register(RegisterModel model)
+    [Route("[action]")]
+    public async Task<BaseResponse<int>> Register(RegisterModel model)
     {
         return await service.RegisterUserAsync(model.Login, model.Password);
     }
     [HttpPost]
+    [Route("[action]")]
     public async Task<BaseResponse<bool>> Login(LoginModel model)
     {
         return await service.IsCorrectPasswordAsync(model.Login, model.Password);

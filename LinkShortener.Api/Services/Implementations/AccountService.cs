@@ -43,13 +43,13 @@ public class AccountService : IAccountService
         };
     }
 
-    public async Task<BaseResponse<bool>> RegisterUserAsync(string login, string password)
+    public async Task<BaseResponse<int>> RegisterUserAsync(string login, string password)
     {
         var user = await context.Users.FirstOrDefaultAsync(u => u.Login == login);
         if (user != null)
-            return new BaseResponse<bool>
+            return new BaseResponse<int>
             {
-                Data = false,
+                Data = -1,
                 Description = "User already exists",
                 StatusCode = HttpStatusCode.Ambiguous
             };
@@ -61,9 +61,9 @@ public class AccountService : IAccountService
         };
         await context.Users.AddAsync(user);
         await context.SaveChangesAsync();
-        return new BaseResponse<bool>
+        return new BaseResponse<int>
         {
-            Data = true,
+            Data = user.Id,
             Description = "User Created",
             StatusCode = HttpStatusCode.Created
         };

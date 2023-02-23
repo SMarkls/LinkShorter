@@ -1,0 +1,27 @@
+﻿@model LinkShortener.Api.Models.UserModels.LoginModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Логин";
+}
+<div class="text-center">
+    <form method="post" asp-action="Login">
+        <div>
+            <div>
+                <label class="text-white">Логин</label>
+            </div>
+            <input type="text" class="text-center" asp-for="Login"/>
+            <span asp-validation-for="Login"></span>
+        </div>
+        <div>
+            <div>
+                <label class="text-white">Пароль</label>
+            </div>
+            <input type="text" class="text-center" asp-for="Password"/>
+            <span asp-validation-for="Login"></span>
+        </div>
+        <div>
+            <button class="btn btn-dark m-3 border-light border-2" type="submit">Авторизоваться!</button>
+            <a class="text-white" asp-action="Register">Нет аккаунта?</a>
+        </div>
+    </form>
+</div>

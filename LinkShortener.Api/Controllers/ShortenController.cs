@@ -2,6 +2,7 @@
 using LinkShortener.Api.Models;
 using LinkShortener.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 
 namespace LinkShortener.Api.Controllers;
 
@@ -20,9 +21,9 @@ public class ShortenController : ControllerBase
     [Route("[action]")]
     public async Task<BaseResponse<bool>> CreateLink(CreateLinkModel model)
     {
-        if (Request.Cookies.TryGetValue("ownerId", out string id))
+        if (Request.Headers.TryGetValue("ownerId", out StringValues id))
         {
-            return await shortenService.CreateTokenAsync(model.Link, int.Parse(id));
+            return await shortenService.CreateTokenAsync(model.Link, int.Parse(id[0]));
         }
         return new BaseResponse<bool>
         {

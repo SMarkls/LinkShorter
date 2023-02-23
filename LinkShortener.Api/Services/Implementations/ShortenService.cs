@@ -36,7 +36,7 @@ public class ShortenService : IShortenService
         return new BaseResponse<bool>
         {
             Data = true,
-            Description = "Successfully Created",
+            Description = token,
             StatusCode = HttpStatusCode.Created
         };
     }
@@ -51,6 +51,8 @@ public class ShortenService : IShortenService
                 Description = "Not Found",
                 StatusCode = HttpStatusCode.NotFound
             };
+        link.CountOfRedirects++;
+        await context.SaveChangesAsync();
         return new BaseResponse<string>
         {
             Data = link.Link,
