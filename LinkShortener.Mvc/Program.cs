@@ -27,7 +27,7 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "token",
     pattern: "{token:alpha}",
-    defaults: new { controller = "Redirector", action = "RedirectToToken" }
+    defaults: new { controller = "Redirect", action = "RedirectToToken" }
 );
 
 app.Run();

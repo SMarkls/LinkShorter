@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LinkShortener.Mvc.Controllers;
 
-public class Redirector : Controller
+public class RedirectController : Controller
 {
     [HttpGet("{token:alpha}")]
     public async Task<IActionResult> RedirectToToken(string token)
