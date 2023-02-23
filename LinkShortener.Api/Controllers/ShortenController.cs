@@ -19,7 +19,7 @@ public class ShortenController : ControllerBase
 
     [HttpPost]
     [Route("[action]")]
-    public async Task<BaseResponse<bool>> CreateLink(CreateLinkModel model)
+    public async ValueTask<BaseResponse<bool>> CreateLink(CreateLinkModel model)
     {
         if (Request.Headers.TryGetValue("ownerId", out StringValues id))
         {
@@ -38,5 +38,16 @@ public class ShortenController : ControllerBase
     public async Task<BaseResponse<string>> GetLink(string token)
     {
         return await shortenService.GetLinkAsync(token);
+    }
+
+    [HttpGet]
+    [Route("[action]")]
+    public async ValueTask<IEnumerable<ShortenLinkModel>> GetLinks()
+    {
+        if (Request.Headers.TryGetValue("ownerId", out StringValues id))
+        {
+            return await shortenService.GetLinksAsync(int.Parse(id[0]));
+        }
+        return Enumerable.Empty<ShortenLinkModel>();
     }
 }

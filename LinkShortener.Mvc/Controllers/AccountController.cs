@@ -28,10 +28,10 @@ public class AccountController : Controller
         using var client = new HttpClient();
         var response = await client.PostAsync("http://localhost:5255/api/Auth/Login",
             new StringContent(JsonSerializer.Serialize(model), new MediaTypeHeaderValue("application/json")));
-        BaseResponse<bool>? parsedResponse =
-            await JsonSerializer.DeserializeAsync<BaseResponse<bool>>(await response.Content.ReadAsStreamAsync(),
+        BaseResponse<int>? parsedResponse =
+            await JsonSerializer.DeserializeAsync<BaseResponse<int>>(await response.Content.ReadAsStreamAsync(),
                 new JsonSerializerOptions(JsonSerializerDefaults.Web));
-        if (parsedResponse is { Data: true })
+        if (parsedResponse is { Data: > 0 })
         {
             var claims = new List<Claim>
             {

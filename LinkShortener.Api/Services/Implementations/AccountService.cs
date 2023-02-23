@@ -17,27 +17,27 @@ public class AccountService : IAccountService
         this.context = context;
         this.calculator = calculator;
     }
-    public async Task<BaseResponse<bool>> IsCorrectPasswordAsync(string login, string password)
+    public async Task<BaseResponse<int>> IsCorrectPasswordAsync(string login, string password)
     {
         var user = await context.Users.FirstOrDefaultAsync(u => u.Login == login);
         if (user == null)
-            return new BaseResponse<bool>
+            return new BaseResponse<int>
             {
-                Data = false,
+                Data = -1,
                 Description = "User Not Found",
                 StatusCode = HttpStatusCode.OK
             };
         var hash = calculator.GetHash(password);
         if (hash == user.HashPassword)
-            return new BaseResponse<bool>
+            return new BaseResponse<int>
             {
-                Data = true,
+                Data = user.Id,
                 Description = "Ok",
                 StatusCode = HttpStatusCode.OK
             };
-        return new BaseResponse<bool>
+        return new BaseResponse<int>
         {
-            Data = false,
+            Data = -1,
             Description = "Incorrect Password",
             StatusCode = HttpStatusCode.OK
         };

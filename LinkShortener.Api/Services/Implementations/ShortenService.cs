@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Immutable;
+using System.Net;
 using LinkShortener.Api.Data.DataBase;
 using LinkShortener.Api.Models;
 using LinkShortener.Api.Services.Interfaces;
@@ -59,5 +60,10 @@ public class ShortenService : IShortenService
             Description = "Successfully Found",
             StatusCode = HttpStatusCode.OK
         };
+    }
+
+    public async Task<IEnumerable<ShortenLinkModel>> GetLinksAsync(int id)
+    {
+        return await context.Links.Where(x => x.OwnerId == id).ToArrayAsync();
     }
 }

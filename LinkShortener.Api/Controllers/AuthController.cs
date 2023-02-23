@@ -24,7 +24,7 @@ public class AuthController
     }
     [HttpPost]
     [Route("[action]")]
-    public async Task<BaseResponse<bool>> Login(LoginModel model)
+    public async Task<BaseResponse<int>> Login(LoginModel model)
     {
         return await service.IsCorrectPasswordAsync(model.Login, model.Password);
     }
