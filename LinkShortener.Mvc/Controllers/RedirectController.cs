@@ -10,7 +10,7 @@ public class RedirectController : Controller
     public async ValueTask<IActionResult> RedirectToToken(string token)
     {
         if (token.Length != 6)
-            return RedirectToAction("Index", "Home");
+            return Redirect("/");
         using var client = new HttpClient();
         var response = await client.GetAsync($"http://localhost:5255/api/Shorten/GetLink/{token}");
         BaseResponse<string>? parsedResponse = await JsonSerializer.DeserializeAsync<BaseResponse<string>>(
@@ -19,6 +19,6 @@ public class RedirectController : Controller
             return Redirect(parsedResponse.Data.Contains("https://")
                 ? $"{parsedResponse.Data}"
                 : $"https://{parsedResponse.Data}");
-        return RedirectToAction("Index", "Home");
+        return Redirect("/");
     }
 }

@@ -1,5 +1,6 @@
 ﻿@using LinkShortener.Api.Models
 @using System.Text.Json
+@using Microsoft.AspNetCore.Http.Extensions
 @model CreateLinkModel
 @{
     ViewData["Title"] = "Сократи ссылку!";
@@ -40,7 +41,7 @@
         {
             <tr>
                 <td>@link.Link</td>
-                <td><a href="http://localhost:5064/@link.Token" class="text-decoration-none">@link.Token</a></td>
+                <td><a href="@Context.Request.GetDisplayUrl()@link.Token" class="text-decoration-none">@link.Token</a></td>
                 <td>@((DateTime.Now - link.Created).Days) дней назад</td>
                 <td>@link.CountOfRedirects</td>
             </tr>

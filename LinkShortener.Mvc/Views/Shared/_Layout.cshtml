@@ -21,8 +21,10 @@
             }
             else
             {
-                <p class="text-end text-white col-9">@Context.User.Claims.First(x => x.Type == "User").Value</p>
-                <a asp-action="Logout" asp-controller="Account" class="text-end text-white text-decoration-none">Выйти</a>
+                <div class="text-end text-white text-decoration-none">
+                    <div>@Context.User.Claims.First(x => x.Type == "User").Value</div>
+                    <a style="font-size: 11px" asp-action="Logout" asp-controller="Account">Выйти</a>
+                </div>
             }
         </div>
     </nav>
