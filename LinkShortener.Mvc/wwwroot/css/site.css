@@ -42,3 +42,9 @@ button{
 .navbar-brand {
   color: white;
 }
+
+.btn-dark-red{
+  background: darkred;
+  color: white;
+  scale: 80%;
+}

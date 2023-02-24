@@ -1,5 +1,4 @@
-﻿using System.Collections.Immutable;
-using System.Net;
+﻿using System.Net;
 using LinkShortener.Api.Data.DataBase;
 using LinkShortener.Api.Models;
 using LinkShortener.Api.Services.Interfaces;
@@ -65,5 +64,26 @@ public class ShortenService : IShortenService
     public async Task<IEnumerable<ShortenLinkModel>> GetLinksAsync(int id)
     {
         return await context.Links.Where(x => x.OwnerId == id).ToArrayAsync();
+    }
+
+    public async Task<BaseResponse<bool>> DeleteLink(int id, int ownerId)
+    {
+        var link = await context.Links.FirstOrDefaultAsync(l => l.Id == id);
+        if (link == null || link.OwnerId != ownerId)
+            return new BaseResponse<bool>
+            {
+                Data = false,
+                Description = "No Access or Not found.",
+                StatusCode = HttpStatusCode.NotFound
+            };
+        
+        context.Links.Remove(link);
+        await context.SaveChangesAsync();
+        return new BaseResponse<bool>
+        {
+            Data = true,
+            Description = "Successfully deleted.",
+            StatusCode = HttpStatusCode.OK
+        };
     }
 }

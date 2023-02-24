@@ -10,10 +10,6 @@ namespace LinkShortener.Mvc.Controllers;
 
 public class AccountController : Controller
 {
-    public AccountController()
-    {
-        
-    }
     [HttpGet]
     public IActionResult Login()
     {

@@ -23,7 +23,7 @@ public class ShortenController : ControllerBase
     {
         if (Request.Headers.TryGetValue("ownerId", out StringValues id))
         {
-            return await shortenService.CreateTokenAsync(model.Link, int.Parse(id[0]));
+            return await shortenService.CreateTokenAsync(model.Link, int.Parse(id[0]!));
         }
         return new BaseResponse<bool>
         {
@@ -46,8 +46,24 @@ public class ShortenController : ControllerBase
     {
         if (Request.Headers.TryGetValue("ownerId", out StringValues id))
         {
-            return await shortenService.GetLinksAsync(int.Parse(id[0]));
+            return await shortenService.GetLinksAsync(int.Parse(id[0]!));
         }
         return Enumerable.Empty<ShortenLinkModel>();
+    }
+
+    [HttpDelete]
+    [Route("[action]/{linkId:int}")]
+    public async ValueTask<BaseResponse<bool>> DeleteLink(int linkId)
+    {
+        if (Request.Headers.TryGetValue("ownerId", out StringValues id))
+        {
+            return await shortenService.DeleteLink(linkId, int.Parse(id[0]!));
+        }
+        return new BaseResponse<bool>
+        {
+            Data = false,
+            StatusCode = HttpStatusCode.Unauthorized,
+            Description = "You are unauthorized."
+        };
     }
 }
