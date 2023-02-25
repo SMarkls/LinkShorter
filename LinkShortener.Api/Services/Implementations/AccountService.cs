@@ -27,7 +27,7 @@ public class AccountService : IAccountService
                 Description = "User Not Found",
                 StatusCode = HttpStatusCode.OK
             };
-        var hash = calculator.GetHash(password);
+        var hash = calculator.GetPasswordHash(password);
         if (hash == user.HashPassword)
             return new BaseResponse<int>
             {
@@ -53,7 +53,7 @@ public class AccountService : IAccountService
                 Description = "User already exists",
                 StatusCode = HttpStatusCode.Ambiguous
             };
-        var hash = calculator.GetHash(password);
+        var hash = calculator.GetPasswordHash(password);
         user = new UserModel
         {
             Login = login,

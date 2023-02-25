@@ -1,6 +1,7 @@
 ﻿@using LinkShortener.Api.Models
 @using System.Text.Json
 @using Microsoft.AspNetCore.Http.Extensions
+@using Humanizer;
 @model CreateLinkModel
 @{
     ViewData["Title"] = "Сократи ссылку!";
@@ -26,8 +27,8 @@
         using var client = new HttpClient();
         client.DefaultRequestHeaders.Add("ownerId", $"{Context.User.Claims.First(x => x.Type == "Id").Value}");
         var response = await client.GetAsync("http://localhost:5255/api/Shorten/GetLinks");
-        IEnumerable<ShortenLinkModel>? models =
-            await JsonSerializer.DeserializeAsync<IEnumerable<ShortenLinkModel>>(
+        BaseResponse<IEnumerable<ShortenLinkModel>>? parsedResponse =
+            await JsonSerializer.DeserializeAsync<BaseResponse<IEnumerable<ShortenLinkModel>>>(
                 await response.Content.ReadAsStreamAsync(), new JsonSerializerOptions(JsonSerializerDefaults.Web));
         <div class="container-fluid border border-3 text-white">
             <table class="container-fluid">
@@ -38,18 +39,21 @@
                     <th>Количество переходов</th>
                     <th></th>
                 </tr>
-        @foreach (var link in models)
+        @if (parsedResponse != null)
         {
-            <tr>
-                <td>@link.Link</td>
-                <td><a href="@Context.Request.GetDisplayUrl().Split("//")[1].Split("/")[0]/@link.Token" class="text-decoration-none">@link.Token</a></td>
-                <td>@((DateTime.Now - link.Created).Days) дней назад</td>
-                <td>@link.CountOfRedirects</td>
-                <td><form method="post" asp-controller="Home" asp-action="DeleteLink"><input type="hidden" name="LinkId" value="@link.Id"/><button class="btn btn-dark-red" type="submit">-</button></form></td>
-            </tr>
+            @foreach (var link in parsedResponse.Data)
+            {
+                <tr>
+                    <td>@link.Link</td>
+                    <td><a href="@Context.Request.GetDisplayUrl().Split("//")[1].Split("/")[0]/@link.Token" class="text-decoration-none">@link.Token</a></td>
+                    <td>@((DateTime.Now - link.Created).Humanize()) назад</td>
+                    <td>@link.CountOfRedirects</td>
+                    <td>
+                        <form method="post" asp-controller="Home" asp-action="DeleteLink"><input type="hidden" name="LinkId" value="@link.Id"/><button class="btn btn-dark-red" type="submit">-</button></form></td>
+                </tr>
+            }
         }    
             </table>
         </div>
-        
     }
 </div>

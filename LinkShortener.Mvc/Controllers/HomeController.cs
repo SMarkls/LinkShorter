@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
 using System.Text.Json;
 using LinkShortener.Api.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +22,7 @@ public class HomeController : Controller
         if (ModelState.IsValid)
         {
             using var client = new HttpClient();
-            client.DefaultRequestHeaders.Add("ownerId", "1");
+            client.DefaultRequestHeaders.Add("ownerId", HttpContext.User.Claims.First(x => x.Type == "Id").Value);
             var response = await client.PostAsync("http://localhost:5255/api/Shorten/CreateLink",
                 new StringContent(JsonSerializer.Serialize(model), new MediaTypeHeaderValue("application/json")));
             BaseResponse<bool>? parsedResponse =
@@ -34,6 +33,9 @@ public class HomeController : Controller
                 ViewBag.IsSuccess = $"Ссылка сгенерирована: {Request.GetDisplayUrl().Split("//")[1].Split("/")[0]}/{parsedResponse.Description}";
                 return View("Index");
             }
+
+            return RedirectToAction("Error",
+                new ErrorViewModel(parsedResponse?.Description, parsedResponse?.StatusCode));
         }
         
         return View("Index", model);
@@ -49,12 +51,12 @@ public class HomeController : Controller
                 new JsonSerializerOptions(JsonSerializerDefaults.Web));
         if (parsedResponse is { Data: true })
             return Redirect("/");
-        return RedirectToAction("Error"); // TODO: сделать странцу с ошибкой.
+        return RedirectToAction("Error", new ErrorViewModel(parsedResponse.Description, parsedResponse.StatusCode));
     }
     
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
+    public IActionResult Error(ErrorViewModel model)
     {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        return View(model);
     }
 }

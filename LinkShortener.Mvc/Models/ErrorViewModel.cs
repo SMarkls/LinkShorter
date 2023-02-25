@@ -1,8 +1,14 @@
+using System.Net;
+
 namespace LinkShortener.Mvc.Models;
 
 public class ErrorViewModel
 {
-    public string? RequestId { get; set; }
-
-    public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+    public ErrorViewModel(string desc, HttpStatusCode? code = null)
+    {
+        Code = code;
+        ErrorDescription = desc;
+    }
+    public string ErrorDescription { get; set; }
+    public HttpStatusCode? Code { get; set; }
 }

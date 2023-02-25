@@ -18,10 +18,10 @@ public class ShortenService : IShortenService
     }
     public async Task<BaseResponse<bool>> CreateTokenAsync(string link, int ownerId)
     {
-        string token = calculator.GetHash(link).Remove(6);
+        string token = calculator.GetLinkToken(link);
         while (await context.Links.FirstOrDefaultAsync(u => u.Token == token) != null)
         {
-            
+            token = calculator.GetLinkToken(link);
         }
 
         ShortenLinkModel shortenLink = new ShortenLinkModel
@@ -61,9 +61,22 @@ public class ShortenService : IShortenService
         };
     }
 
-    public async Task<IEnumerable<ShortenLinkModel>> GetLinksAsync(int id)
+    public async Task<BaseResponse<IEnumerable<ShortenLinkModel>>> GetLinksAsync(int ownerId)
     {
-        return await context.Links.Where(x => x.OwnerId == id).ToArrayAsync();
+        var links = await context.Links.Where(x => x.OwnerId == ownerId).ToArrayAsync();
+        if (links.Length > 0)
+            return new BaseResponse<IEnumerable<ShortenLinkModel>>
+            {
+                Data = links,
+                Description = "Ok",
+                StatusCode = HttpStatusCode.OK
+            };
+        return new BaseResponse<IEnumerable<ShortenLinkModel>>
+        {
+            Data = links,
+            Description = "Links not found",
+            StatusCode = HttpStatusCode.OK
+        };
     }
 
     public async Task<BaseResponse<bool>> DeleteLink(int id, int ownerId)

@@ -41,7 +41,7 @@ public class AccountController : Controller
             return Redirect("/");
         }
         ViewBag.Error = parsedResponse?.Description!;
-        return View("Login");
+        return View(model);
     }
     
     [HttpGet]
@@ -74,7 +74,7 @@ public class AccountController : Controller
             return Redirect("/");
         }
         ViewBag.Error = parsedResponse?.Description!;
-        return View("Register");
+        return View(model);
     }
 
     public async Task<IActionResult> Logout()
